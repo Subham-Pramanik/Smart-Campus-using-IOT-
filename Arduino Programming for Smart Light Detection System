@@ -1,0 +1,37 @@
+//Control LED Using Blynk IOT
+#define BLYNK_TEMPLATE_ID "TMPL3-yP2ZsTi"
+#define BLYNK_TEMPLATE_NAME "LED"
+#define BLYNK_AUTH_TOKEN "24NAtXAZxu_13p-QHv6qA3eiI_hda2rX"
+#define BLYNK_PRINT Serial
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+char auth[] = BLYNK_AUTH_TOKEN;
+char ssid[] = "hp10"; // Enter your Wifi Username
+char pass[] = "*********"; // Enter your Wifi password
+const int lightSensorPin = A0;
+const int ledPin = D1;
+const int lightThreshold = 500;
+unsigned long lastMotionTime = 0;
+const unsigned long motionTimeout = 60000;
+void setup() {
+Serial.begin(9600);
+delay(10);
+pinMode(ledPin, OUTPUT);
+digitalWrite(ledPin, LOW);
+Blynk.begin(auth, ssid, pass);
+}
+void loop() {
+Blynk.run();
+int lightIntensity = analogRead(lightSensorPin);
+if (lightIntensity > lightThreshold) {
+digitalWrite(ledPin, HIGH);
+Blynk.virtualWrite(V1, lightIntensity);
+} else {
+unsigned long currentTime = millis();
+if (currentTime - lastMotionTime > motionTimeout) {
+digitalWrite(ledPin, LOW);
+ESP.deepSleep(0);
+}
+}
+delay(1000);
+}
