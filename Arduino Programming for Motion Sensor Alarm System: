@@ -1,4 +1,4 @@
-const char* ssid = "kamalika saha"; //WIFI SSID
+const char* ssid = "Subham Pramanik"; //WIFI SSID
 const char* password = "*****************"; //WIFI password
 String token = "********************************";
 String chat_id = "6057733971";
